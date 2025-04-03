@@ -4,7 +4,7 @@ from app.extensions import db
 from datetime import datetime
 class Company(db.Model):
        __tablename__= "companies"
-       id = db.Column(db.Integer, primary_key=True)
+       company_id = db.Column(db.Integer, primary_key=True)
        first_name = db.Column(db.String(20))
        last_name = db.Column(db.String(50), nullable=False)
        contact = db.Column(db.String(50), nullable=False, unique =True)
@@ -13,8 +13,8 @@ class Company(db.Model):
        created_at = db.Column(db.DateTime, default =datetime.now())
        updated_at = db.Column(db.DateTime, onupdate= datetime.now())
 
-       def __init__(self,id, name, origin, description, created_at, updated_at, email,contact):
-            self.id =id
+       def __init__(self,company_id, name, origin, description, created_at, updated_at, email,contact):
+            self.company_id =company_id
             self.name =name
             self.origin =origin
             self.description =description
