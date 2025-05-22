@@ -30,7 +30,5 @@ class Book(db.Model):
 
     def __repr__(self):
         return f"<Book {self.title} by {self.author}>"
-    
-
 
     

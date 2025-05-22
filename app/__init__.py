@@ -3,7 +3,7 @@ from app.extensions import db, migrate, jwt
 from flask import Blueprint
 from app.Controllers.auth.auth_controllers import auth
 from app.Controllers.books.books_controllers import books
-from app.Controllers.user.user_controllers import users
+from app.Controllers.author.author_controllers import author
 
 
 
@@ -33,7 +33,7 @@ def create_app():
      #registering blueprints
      app.register_blueprint(auth)
      app.register_blueprint(books)
-     app.register_blueprint(users)
+     app.register_blueprint(author)
 
 
      #index route

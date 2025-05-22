@@ -12,6 +12,7 @@ auth= Blueprint('auth', __name__, url_prefix='/api/v1/auth')
 # blueprint refers to templates or structures that guide how code is organized
 # authentication refers to the process of verifying the identity of a user or system 
 # and is often used in the context of securing access to resources or services.
+# validators is a library that provides a set of functions for validating various types of data, such as email addresses, URLs.
 
 #register user
 @auth.route('/register', methods=['POST'])
@@ -26,22 +27,22 @@ def register_author():
     biography = data.get('biography') if type == "author" else ''
 
 #validating of incoming request
-    if not first_name or not last_name or not contact or not email:
+    if not first_name or not last_name or not contact or not email:# ensuring all fields are provided
         return jsonify({"error": "All fields are required"}), HTTP_400_BAD_REQUEST
 
     if type == "author" and not biography:
-        return jsonify({"error": "Enter your author biography"}), HTTP_400_BAD_REQUEST
+        return jsonify({"error": "Enter your author biography"}), HTTP_400_BAD_REQUEST# biography is required for author type
 
-    if not password or len(password) < 8:
-        return jsonify({"error": "Password is too"}), HTTP_400_BAD_REQUEST
+    if not password or len(password) < 8: # ensuring password is provided and has a minimum length of 8 characters
+        return jsonify({"error": "Password is too short"}), HTTP_400_BAD_REQUEST
 
-    if not validators.email(email):
+    if not validators.email(email): ## validating email format using the validators library
         return jsonify({"error": "Email is not valid"}), HTTP_400_BAD_REQUEST
 
-    if Author.query.filter_by(email=email).first() is not None:
+    if Author.query.filter_by(email=email).first() is not None: # checking if email already exists in the database
         return jsonify({"error": "Email address is already in use"}), HTTP_409_CONFLICT
 
-    if Author.query.filter_by(contact=contact).first() is not None:
+    if Author.query.filter_by(contact=contact).first() is not None:# checking if contact already exists in the database
         return jsonify({"error": "Contact address is already in use"}), HTTP_409_CONFLICT
 
     try:
